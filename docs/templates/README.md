@@ -19,7 +19,28 @@ together.
 
 Project structure is fixed, and it is based on the following structure:
 
-TODO
+- `cmd/`: folder to manage and gather files related to the commands
+  - `bootstrap`: folder to manage the bootstrap of the application
+    - `main.go`: main file to start the application
+- `docker`: folder to manage and gather files related to docker and docker
+  compose
+- `docs/`: folder to manage and gather files related to the documentation
+  - `adr`: folder to manage and gather files related to the architecture
+    decision record
+  - `assets`: folder to manage and gather assets related to the documentation
+  - `flows`: folder to manage and gather files related to the flows
+  - `templates`: folder to manage and gather templates
+- `internal/`: folder to manage and gather files related to private code used by
+  the application
+  - `handlers`: folder to manage and gather files related to the handlers
+- `pkg/`: folder to manage and gather files related to code that can be used by
+  external applications
+- `README.md`: main file to start the application
+- `.gitignore`: file to manage git ignore
+- `taskfile.yml`: file to manage tasks
+
+As a reference, I follow the
+[golang-standards/project-layout](https://github.com/golang-standards/project-layout/blob/master/README.md).
 
 ## Getting started
 

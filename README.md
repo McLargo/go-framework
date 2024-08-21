@@ -43,18 +43,28 @@ sometimes can be a little bit overwhelming.
 
 Project structure is fixed, and it is based on the following structure:
 
+- `cmd/`: folder to manage and gather files related to the commands
+  - `bootstrap`: folder to manage the bootstrap of the application
+    - `main.go`: main file to start the application
 - `docker`: folder to manage and gather files related to docker and docker
   compose
 - `docs/`: folder to manage and gather files related to the documentation
   - `adr`: folder to manage and gather files related to the architecture
     decision record
-  - `assets`: folder to manage and gather assets related to the
+  - `assets`: folder to manage and gather assets related to the documentation
   - `flows`: folder to manage and gather files related to the flows
-    documentation
   - `templates`: folder to manage and gather templates
+- `internal/`: folder to manage and gather files related to private code used by
+  the application
+  - `handlers`: folder to manage and gather files related to the handlers
+- `pkg/`: folder to manage and gather files related to code that can be used by
+  external applications
 - `README.md`: main file to start the application
 - `.gitignore`: file to manage git ignore
 - `taskfile.yml`: file to manage tasks
+
+As a reference, I follow the
+[golang-standards/project-layout](https://github.com/golang-standards/project-layout/blob/master/README.md).
 
 ## Getting started
 
@@ -101,7 +111,7 @@ decision made along with its context and consequences.
 
 Below is a list of the ADRs for this project:
 
-- [ADR-000](../../docs/templates/adr.md) - ADR template
+- [ADR-001](./docs/adr/001-fiber.md) - Fiber as the web framework
 
 ## Contribution
 
