@@ -1,0 +1,19 @@
+version: '3'
+
+tasks:
+  install-air:
+    desc: installs air dependencies
+    cmds:
+      - go install github.com/air-verse/air@latest
+
+  dev-server:
+    deps: [install-air]
+    desc: starts server in development mode.
+    dir: '{{.USER_WORKING_DIR}}'
+    cmd: air
+
+  server:
+    desc: starts server in development mode.
+    dir: '{{.USER_WORKING_DIR}}'
+    cmds:
+      - go run cmd/main.go

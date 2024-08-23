@@ -59,8 +59,12 @@ Project structure is fixed, and it is based on the following structure:
   - `handlers`: folder to manage and gather files related to the handlers
 - `pkg/`: folder to manage and gather files related to code that can be used by
   external applications
-- `README.md`: main file to start the application
+- `.air.toml`: file to manage air configuration
 - `.gitignore`: file to manage git ignore
+- `go.mod`: file to manage go modules
+- `go.sum`: file to manage go modules
+- `LICENSE`: file to manage the license
+- `README.md`: main file to start the application
 - `taskfile.yml`: file to manage tasks
 
 As a reference, I follow the
@@ -100,9 +104,14 @@ see below some of the most used commands:
 ### Native installation
 
 If you prefer to run the application natively, you can do it by running the
-following commands:
+following command:
 
-TODO: add instructions to run the application natively + requirements
+`task server`
+
+While you are developing, you can use the following command to live reload the
+application:
+
+`task dev-server`
 
 ## Architecture Decision Record
 
@@ -112,6 +121,7 @@ decision made along with its context and consequences.
 Below is a list of the ADRs for this project:
 
 - [ADR-001](./docs/adr/001-fiber.md) - Fiber as the web framework
+- [ADR-002](./docs/adr/002-development.md) - Development environment
 
 ## Contribution
 
