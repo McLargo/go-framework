@@ -1,0 +1,9 @@
+
+.git/
+build/
+docs/
+tmp/
+.gitignore
+LICENSE
+README.md
+taskfile.yaml

@@ -1,0 +1,15 @@
+services:
+  go-framework:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: go-framework
+    healthcheck:
+      test: curl --fail http://localhost:3000/healthz || exit 1
+      interval: 60s
+      retries: 3
+      start_period: 10s
+      timeout: 5s
+    image: go-framework
+    ports:
+      - "3000:3000"
