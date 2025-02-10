@@ -12,9 +12,10 @@ application in order to see your latest changes in the code.
 Implement a development environment that allows the developer to live reload the
 application while you are developing.
 
-[Air](https://github.com/air-verse/air) is a tool that allows you to do that. It watches for changes in the code and
-rebuilds the application automatically. It support some configuration, which is
-nice to have in different scenarios/applications.
+[Air](https://github.com/air-verse/air) is a tool that allows you to do that. It
+watches for changes in the code and rebuilds the application automatically. It
+support some configuration, which is nice to have in different
+scenarios/applications.
 
 ## Other Solution Considered
 
