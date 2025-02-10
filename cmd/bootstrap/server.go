@@ -1,9 +1,13 @@
 package bootstrap
 
 import (
+	"context"
 	"fmt"
+	"os/signal"
+	"syscall"
 
 	"github.com/mclargo/go-framework/internal/handlers"
+	"golang.org/x/sync/errgroup"
 
 	"github.com/gofiber/fiber/v2"
 )
@@ -20,12 +24,31 @@ func RunServer() error {
 	app.Get("/healthz", handlers.Healthz)
 
 	// TODO: set dynamic port in conf
+
+	ctx, done := signal.NotifyContext(context.Background(), syscall.SIGINT, syscall.SIGTERM, syscall.SIGKILL)
+	defer done()
+
+	ggroup, gctx := errgroup.WithContext(ctx)
+
 	// Start the server on port 3000
-	fmt.Println("Starting server in port 3000")
-	if err := app.Listen(":3000"); err != nil {
+	ggroup.Go(func() error {
+		if err := app.Listen(":3000"); err != nil && err != context.Canceled {
+			// TODO: log error
+			//logger.Errorf("Could not listen on 3000: %v", err)
+			return err
+		}
+		return nil
+	})
+
+	// graceful shutdown
+	<-gctx.Done()
+	// TODO: log info
+	fmt.Println("Gracefully shut down servers. Exiting...")
+	if err := app.Shutdown(); err != nil {
+		// TODO: log error
+		//logger.Errorf("App fiber server forced to shutdown: %v", err)
 		return err
 	}
-	// TODO: graceful shutdown
 
 	return nil
 }

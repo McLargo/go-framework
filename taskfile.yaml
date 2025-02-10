@@ -7,7 +7,7 @@ tasks:
     cmds:
       - go install github.com/air-verse/air@latest
 
-  dev-server:
+  dev:
     deps: [install-air]
     desc: starts server in development mode.
     dir: '{{.USER_WORKING_DIR}}'
