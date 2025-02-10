@@ -122,6 +122,7 @@ Below is a list of the ADRs for this project:
 
 - [ADR-001](./docs/adr/001-fiber.md) - Fiber as the web framework
 - [ADR-002](./docs/adr/002-development.md) - Development environment
+- [ADR-003](./docs/adr/003-viper.md) - Viper as the configuration manager
 
 ## Contribution
 

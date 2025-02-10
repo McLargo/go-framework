@@ -1,0 +1,6 @@
+app:
+  verbose: false
+  debug: false
+  port: ":3000"
+log:
+  path: ./tmp/output.log

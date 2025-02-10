@@ -6,14 +6,27 @@ import (
 	"os/signal"
 	"syscall"
 
+	"github.com/mclargo/go-framework/cmd/conf"
 	"github.com/mclargo/go-framework/internal/handlers"
-	"golang.org/x/sync/errgroup"
 
 	"github.com/gofiber/fiber/v2"
+	"golang.org/x/sync/errgroup"
 )
 
 func RunServer() error {
-	// TODO: init config
+	cfg, err := conf.InitConfig()
+	if err != nil {
+		return err
+	}
+
+	if *cfg.App.Verbose {
+		cfg.Print()
+	}
+
+	if *cfg.App.Debug {
+		// Watch the config file for changes
+		cfg.Watch()
+	}
 
 	// TODO: init logger
 
@@ -23,16 +36,15 @@ func RunServer() error {
 	// set endpoint -> healthz
 	app.Get("/healthz", handlers.Healthz)
 
-	// TODO: set dynamic port in conf
-
+	// setting up graceful shutdown
 	ctx, done := signal.NotifyContext(context.Background(), syscall.SIGINT, syscall.SIGTERM, syscall.SIGKILL)
 	defer done()
 
 	ggroup, gctx := errgroup.WithContext(ctx)
 
-	// Start the server on port 3000
+	// start the server on port in a separate goroutine
 	ggroup.Go(func() error {
-		if err := app.Listen(":3000"); err != nil && err != context.Canceled {
+		if err := app.Listen(cfg.App.Port); err != nil && err != context.Canceled {
 			// TODO: log error
 			//logger.Errorf("Could not listen on 3000: %v", err)
 			return err
