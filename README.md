@@ -44,10 +44,9 @@ sometimes can be a little bit overwhelming.
 Project structure is fixed, and it is based on the following structure:
 
 - `cmd/`: folder to manage and gather files related to the commands
-  - `bootstrap`: folder to manage the bootstrap of the application
+  - `bootstrap/`: folder to manage the bootstrap of the application
+  - `config/`: folder to manage the configuration of the application
     - `main.go`: main file to start the application
-- `docker`: folder to manage and gather files related to docker and docker
-  compose
 - `docs/`: folder to manage and gather files related to the documentation
   - `adr`: folder to manage and gather files related to the architecture
     decision record
@@ -60,7 +59,11 @@ Project structure is fixed, and it is based on the following structure:
 - `pkg/`: folder to manage and gather files related to code that can be used by
   external applications
 - `.air.toml`: file to manage air configuration
+- `.dockerignore`: file to manage docker ignore
+- `.env_template`: file to manage the environment variables
 - `.gitignore`: file to manage git ignore
+- `docker-compose.yml`: file to manage docker compose
+- `Dockerfile`: file to manage docker
 - `go.mod`: file to manage go modules
 - `go.sum`: file to manage go modules
 - `LICENSE`: file to manage the license
@@ -72,12 +75,25 @@ As a reference, I follow the
 
 ## Getting started
 
+### Configuration
+
+The application uses different configuration. The configuration is managed by
+viper in two different ways:
+
+- `.env`: to manage the environment variables. You can copy the `.env_template`
+  file to `.env` in the root path and update the variables you want. This
+  variables have precedence over the variables in the `cmd/config/config.yaml`
+  file and it is used to manage the environment variables of the application.
+- `cmd/config/config.yaml`: to manage the default configuration of the
+  application. You can add/update the variables you want, but always push the
+  changes to the repository.
+
+### docker & docker compose utils
+
 The project offers a dockerized environment to run the application. You will
 need to have [docker](https://docs.docker.com/get-docker/) and
 [docker compose](https://docs.docker.com/compose/install/) installed. Please
 install in your machine using the instructions provided in the links.
-
-### docker & docker compose utils
 
 If you are new to docker compose, and love to use the terminal like me, please
 see below some of the most used commands:
@@ -97,21 +113,32 @@ see below some of the most used commands:
 - step 1: `docker compose build`
 - step 2: `docker compose up -d`
 - step 3: go to your browser and open
-  [http://localhost:8000/healthz](http://localhost:8000/healthz). If not opening,
+  [http://localhost:3000/healthz](http://localhost:3000/healthz). If not opening,
   `docker logs -f <container_id>` to see the logs for errors.
 - step 4: start coding
+
+To simplify the usage and development, you can use the following commands inside
+[taskfile](https://taskfile.dev/installation/):
+
+- `task build-docker`: run docker
+- `task build-docker-compose`: run docker compose
 
 ### Native installation
 
 If you prefer to run the application natively, you can do it by running the
-following command:
+following commands:
 
-`task server`
+- step 1: `go run cmd/main.go`
+- step 2: go to your browser and open
+  [http://localhost:3000/healthz](http://localhost:3000/healthz). If not opening,
+  check the logs for errors.
+- step 3: start coding
 
-While you are developing, you can use the following command to live reload the
-application:
+To simplify the usage and development, you can use the following commands inside
+[taskfile](https://taskfile.dev/installation/):
 
-`task dev-server`
+- `task dev`: run the application in development mode
+- `task build`: run the application in production mode
 
 ## Architecture Decision Record
 

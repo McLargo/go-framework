@@ -23,11 +23,19 @@ FROM alpine:3.20
 # Set the Current Working Directory inside the container
 WORKDIR /app
 
+# Install curl for healthcheck
+RUN apk --update --no-cache add curl
+
 # Copy the Pre-built binary file from the previous stage
 COPY --from=builder /app/go_framework .
 
-# Install curl for healthcheck
-RUN apk --update --no-cache add curl
+# Create the .env with required environment variables
+RUN cat <<EOF > /app/.env
+FRAMEWORK_CONFIG_PATH=/app
+EOF
+
+# Copy config file
+COPY --from=builder /app/cmd/conf/config.yaml .
 
 # Expose port 3000 to the outside world
 EXPOSE 3000

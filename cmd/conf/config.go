@@ -42,7 +42,7 @@ func InitConfig() (*Config, error) {
 	// Set and load the config file
 	viper.SetConfigName("config")
 	viper.SetConfigType("yaml")
-	viper.AddConfigPath("./cmd/conf")
+	viper.AddConfigPath(viper.GetString("CONFIG_PATH"))
 
 	err = viper.ReadInConfig()
 	if err != nil {
