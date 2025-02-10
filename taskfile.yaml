@@ -28,7 +28,7 @@ tasks:
       - docker run -p 3000:3000 go-framework
 
   build-docker-compose:
-    desc: build server in production mode inside docker  docker-compose.
+    desc: build server in production mode inside docker with docker compose.
     dir: '{{.USER_WORKING_DIR}}'
     cmds:
       - docker compose up --build
