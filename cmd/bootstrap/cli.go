@@ -1,8 +1,10 @@
 package bootstrap
 
-import "fmt"
-
 func RunCli() error {
-	fmt.Println("Running cli...")
+	bootstrap, err := newBootstrap()
+	if err != nil {
+		return err
+	}
+	bootstrap.Logger.Info("Running cli...")
 	return nil
 }

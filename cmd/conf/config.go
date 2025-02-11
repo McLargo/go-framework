@@ -4,10 +4,10 @@ import (
 	"fmt"
 	"strings"
 
-	"github.com/fsnotify/fsnotify"
 	"github.com/go-playground/validator/v10"
 	"github.com/joho/godotenv"
 	"github.com/spf13/viper"
+	"go.uber.org/zap"
 	"gopkg.in/yaml.v2"
 )
 
@@ -23,15 +23,16 @@ type AppConfig struct {
 }
 
 type LogConfig struct {
-	Path string `mapstructure:"path" validate:"required"`
+	Path     string `mapstructure:"path" validate:"required"`
+	Filename string `mapstructure:"filename" validate:"required"`
+	Debug    *bool  `mapstructure:"debug" validate:"required"`
 }
 
 func InitConfig() (*Config, error) {
 	// Load the .env file
 	err := godotenv.Load()
 	if err != nil {
-		fmt.Println("Error loading .env file")
-		return nil, err
+		return nil, fmt.Errorf("cannot load .env file: %w", err)
 	}
 
 	// Set the default values for the config
@@ -46,63 +47,42 @@ func InitConfig() (*Config, error) {
 
 	err = viper.ReadInConfig()
 	if err != nil {
-		fmt.Println("Error reading config file")
-		return nil, err
+		return nil, fmt.Errorf("cannot read config file: %w", err)
 	}
 
 	var cfg Config
 	err = viper.Unmarshal(&cfg)
 	if err != nil {
-		fmt.Println("Error unmarshalling config")
-		return nil, err
+		return nil, fmt.Errorf("cannot unmarshall to config struct: %w", err)
 	}
 
 	err = cfg.Validate()
 	if err != nil {
-		fmt.Println("Error validating config")
-		return nil, err
+		return nil, fmt.Errorf("cannot validate config: %w", err)
 	}
 
 	return &cfg, nil
 }
 
 // Print prints the configuration.
-func (cfg *Config) Print() {
-	fmt.Println("Using config file:", viper.ConfigFileUsed())
+func (cfg *Config) Print(log *zap.Logger) {
+	log.Info("Using viper config:", zap.String("file", viper.ConfigFileUsed()))
 	set := viper.AllSettings()
 	bs, err := yaml.Marshal(set)
 	if err != nil {
-		fmt.Println("Error marshalling config to YAML:", err)
+		log.Error("Error marshalling config to YAML",
+			zap.Error(err),
+		)
 		return
 	}
 
 	// Print the values as YAML
-	fmt.Println(string(bs))
+	log.Info("YAML config:")
+	log.Info("\n\n" + string(bs) + "\n")
 }
 
 // Validate validates the configuration.
 func (cfg *Config) Validate() error {
 	v := validator.New()
 	return v.Struct(cfg)
-}
-
-// Watch watches the configuration file for changes.
-func (cfg *Config) Watch() {
-	// on config change
-	viper.OnConfigChange(func(e fsnotify.Event) {
-		fmt.Println("Config file changed:", e.Name)
-		err := viper.Unmarshal(&cfg)
-		if err != nil {
-			fmt.Println("unable to unmarshal config:", err)
-		}
-
-		err = cfg.Validate()
-		if err != nil {
-			fmt.Println("fatal error validating config file:", err)
-		}
-		if *cfg.App.Verbose {
-			cfg.Print()
-		}
-	})
-	viper.WatchConfig()
 }

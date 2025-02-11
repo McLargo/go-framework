@@ -3,4 +3,6 @@ app:
   debug: false
   port: ":3000"
 log:
-  path: ./tmp/output.log
+  debug: true
+  path: ./tmp/
+  filename: output.log
