@@ -18,14 +18,14 @@ type Config struct {
 
 type AppConfig struct {
 	Verbose *bool  `mapstructure:"verbose" validate:"required"`
-	Debug   *bool  `mapstructure:"debug" validate:"required"`
-	Port    string `mapstructure:"port" validate:"required"`
+	Debug   *bool  `mapstructure:"debug"   validate:"required"`
+	Port    string `mapstructure:"port"    validate:"required"`
 }
 
 type LogConfig struct {
-	Path     string `mapstructure:"path" validate:"required"`
+	Path     string `mapstructure:"path"     validate:"required"`
 	Filename string `mapstructure:"filename" validate:"required"`
-	Debug    *bool  `mapstructure:"debug" validate:"required"`
+	Debug    *bool  `mapstructure:"debug"    validate:"required"`
 }
 
 func InitConfig() (*Config, error) {
@@ -51,6 +51,7 @@ func InitConfig() (*Config, error) {
 	}
 
 	var cfg Config
+
 	err = viper.Unmarshal(&cfg)
 	if err != nil {
 		return nil, fmt.Errorf("cannot unmarshall to config struct: %w", err)
@@ -68,11 +69,13 @@ func InitConfig() (*Config, error) {
 func (cfg *Config) Print(log *zap.Logger) {
 	log.Info("Using viper config:", zap.String("file", viper.ConfigFileUsed()))
 	set := viper.AllSettings()
+
 	bs, err := yaml.Marshal(set)
 	if err != nil {
 		log.Error("Error marshalling config to YAML",
 			zap.Error(err),
 		)
+
 		return
 	}
 
@@ -84,5 +87,6 @@ func (cfg *Config) Print(log *zap.Logger) {
 // Validate validates the configuration.
 func (cfg *Config) Validate() error {
 	v := validator.New()
+
 	return v.Struct(cfg)
 }

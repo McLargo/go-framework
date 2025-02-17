@@ -5,6 +5,8 @@ func RunCli() error {
 	if err != nil {
 		return err
 	}
+
 	bootstrap.Logger.Info("Running cli...")
+
 	return nil
 }

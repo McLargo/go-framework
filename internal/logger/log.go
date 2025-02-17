@@ -10,7 +10,7 @@ import (
 	"go.uber.org/zap/zapcore"
 )
 
-var Logger *zap.Logger
+const perm = 0644
 
 func InitLogger(cfg conf.Config) (*zap.Logger, error) {
 	pe := zap.NewProductionEncoderConfig()
@@ -28,10 +28,12 @@ func InitLogger(cfg conf.Config) (*zap.Logger, error) {
 
 	// create the log folder if it does not exist
 	if _, err := os.Stat(pathToLog); os.IsNotExist(err) {
-		os.Mkdir(cfg.Log.Path, os.ModePerm)
+		if err = os.Mkdir(cfg.Log.Path, os.ModePerm); err != nil {
+			return nil, fmt.Errorf("cannot create log folder: %w", err)
+		}
 	}
 
-	f, err := os.OpenFile(pathToLog, os.O_CREATE|os.O_WRONLY|os.O_TRUNC, 0644)
+	f, err := os.OpenFile(pathToLog, os.O_CREATE|os.O_WRONLY|os.O_TRUNC, perm)
 	if err != nil {
 		return nil, fmt.Errorf("cannot open log file: %w", err)
 	}
@@ -42,5 +44,6 @@ func InitLogger(cfg conf.Config) (*zap.Logger, error) {
 	)
 
 	logger := zap.New(core, zap.AddCaller())
+
 	return logger, nil
 }

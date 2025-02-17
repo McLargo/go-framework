@@ -22,5 +22,6 @@ func startApp(bootstrap Bootstrap) *fiber.App {
 			)
 		}
 	}
+
 	return app
 }
