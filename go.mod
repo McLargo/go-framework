@@ -3,6 +3,7 @@ module github.com/mclargo/go-framework
 go 1.22.1
 
 require (
+	bou.ke/monkey v1.0.2
 	github.com/fsnotify/fsnotify v1.7.0
 	github.com/go-playground/validator/v10 v10.24.0
 	github.com/gofiber/fiber/v2 v2.52.5

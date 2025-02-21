@@ -1,9 +1,11 @@
 package logger_test
 
 import (
+	"io/fs"
 	"os"
 	"testing"
 
+	"bou.ke/monkey"
 	"github.com/mclargo/go-framework/cmd/conf"
 	"github.com/mclargo/go-framework/internal/logger"
 
@@ -37,7 +39,10 @@ var cfg = conf.Config{
 }
 
 func (s *testLogSuite) TearDownTest() {
+	// remove log path
 	os.RemoveAll(cfg.Log.Path)
+	// reset monkey
+	monkey.UnpatchAll()
 }
 
 func (s *testLogSuite) TestInitLogger() {
@@ -63,7 +68,7 @@ func (s *testLogSuite) TestInitLogger() {
 			// Arrange
 			tc.cfg.Log.Debug = &tc.debug
 
-			// Arrange
+			// Act
 			log, err := logger.InitLogger(tc.cfg)
 
 			// Assert
@@ -96,4 +101,32 @@ func (s *testLogSuite) TestInitLogger() {
 			}
 		})
 	}
+}
+
+func (s *testLogSuite) TestInitLogger_CreatePath_KO() {
+	// Arrange
+	monkey.Patch(os.Mkdir, func(_ string, _ fs.FileMode) error {
+		return fs.ErrExist
+	})
+
+	// Act
+	log, err := logger.InitLogger(cfg)
+
+	// Assert
+	s.Require().Error(err)
+	s.Require().Nil(log)
+}
+
+func (s *testLogSuite) TestInitLogger_OpenFile_KO() {
+	// Arrange
+	monkey.Patch(os.OpenFile, func(_ string, _ int, _ fs.FileMode) (*os.File, error) {
+		return nil, fs.ErrNotExist
+	})
+
+	// Act
+	log, err := logger.InitLogger(cfg)
+
+	// Assert
+	s.Require().Error(err)
+	s.Require().Nil(log)
 }
