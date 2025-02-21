@@ -72,10 +72,7 @@ func (cfg *Config) Print(log *zap.Logger) {
 
 	bs, err := yaml.Marshal(set)
 	if err != nil {
-		log.Error("Error marshalling config to YAML",
-			zap.Error(err),
-		)
-
+		log.Error("Error marshalling config to YAML", zap.Error(err))
 		return
 	}
 

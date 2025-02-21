@@ -8,6 +8,7 @@ require (
 	github.com/gofiber/fiber/v2 v2.52.5
 	github.com/joho/godotenv v1.5.1
 	github.com/spf13/viper v1.19.0
+	github.com/stretchr/testify v1.9.0
 	go.uber.org/zap v1.21.0
 	golang.org/x/sync v0.11.0
 	gopkg.in/yaml.v2 v2.4.0
@@ -15,6 +16,7 @@ require (
 
 require (
 	github.com/andybalholm/brotli v1.1.0 // indirect
+	github.com/davecgh/go-spew v1.1.2-0.20180830191138-d8f796af33cc // indirect
 	github.com/gabriel-vasile/mimetype v1.4.8 // indirect
 	github.com/go-playground/locales v0.14.1 // indirect
 	github.com/go-playground/universal-translator v0.18.1 // indirect
@@ -28,6 +30,7 @@ require (
 	github.com/mattn/go-runewidth v0.0.15 // indirect
 	github.com/mitchellh/mapstructure v1.5.0 // indirect
 	github.com/pelletier/go-toml/v2 v2.2.2 // indirect
+	github.com/pmezard/go-difflib v1.0.1-0.20181226105442-5d4384ee4fb2 // indirect
 	github.com/rivo/uniseg v0.2.0 // indirect
 	github.com/sagikazarmark/locafero v0.4.0 // indirect
 	github.com/sagikazarmark/slog-shim v0.1.0 // indirect

@@ -27,13 +27,13 @@ func InitLogger(cfg conf.Config) (*zap.Logger, error) {
 	pathToLog := fmt.Sprintf("%s/%s", cfg.Log.Path, cfg.Log.Filename)
 
 	// create the log folder if it does not exist
-	if _, err := os.Stat(pathToLog); os.IsNotExist(err) {
+	if _, err := os.Stat(cfg.Log.Path); os.IsNotExist(err) {
 		if err = os.Mkdir(cfg.Log.Path, os.ModePerm); err != nil {
 			return nil, fmt.Errorf("cannot create log folder: %w", err)
 		}
 	}
 
-	f, err := os.OpenFile(pathToLog, os.O_CREATE|os.O_WRONLY|os.O_TRUNC, perm)
+	f, err := os.OpenFile(pathToLog, os.O_APPEND|os.O_CREATE|os.O_WRONLY, perm)
 	if err != nil {
 		return nil, fmt.Errorf("cannot open log file: %w", err)
 	}
