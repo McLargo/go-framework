@@ -36,6 +36,10 @@ var cfg = conf.Config{
 		Filename: "test.log",
 		Debug:    &defaultToFalse,
 	},
+	StorageConfig: conf.StorageConfig{
+		Type:    "memory",
+		Timeout: 10,
+	},
 }
 
 func (s *testLogSuite) TearDownTest() {

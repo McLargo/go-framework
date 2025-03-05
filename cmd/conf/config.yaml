@@ -6,3 +6,6 @@ log:
   debug: true
   path: ./tmp/
   filename: output.log
+storage:
+  type: memory
+  timeout: 10
