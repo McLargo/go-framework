@@ -12,8 +12,9 @@ import (
 )
 
 type Config struct {
-	App AppConfig `mapstructure:"app"`
-	Log LogConfig `mapstructure:"log"`
+	App     AppConfig     `mapstructure:"app"`
+	Log     LogConfig     `mapstructure:"log"`
+	Storage StorageConfig `mapstructure:"storage"`
 }
 
 type AppConfig struct {
@@ -26,6 +27,12 @@ type LogConfig struct {
 	Path     string `mapstructure:"path"     validate:"required"`
 	Filename string `mapstructure:"filename" validate:"required"`
 	Debug    *bool  `mapstructure:"debug"    validate:"required"`
+}
+
+type StorageConfig struct {
+	Type     string `mapstructure:"type"`
+	Timeout  int    `mapstructure:"timeout"`
+	MongoURI string `mapstructure:"mongo_uri"`
 }
 
 func InitConfig() (*Config, error) {
