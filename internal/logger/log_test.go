@@ -17,34 +17,34 @@ import (
 
 type testLogSuite struct {
 	suite.Suite
+	config *conf.Config
 }
 
 func TestLogSuite(t *testing.T) {
 	suite.Run(t, new(testLogSuite))
 }
 
-var defaultToFalse = false
-
-var cfg = conf.Config{
-	App: conf.AppConfig{
-		Verbose: &defaultToFalse,
-		Debug:   &defaultToFalse,
-		Port:    ":3000",
-	},
-	Log: conf.LogConfig{
-		Path:     "../../tmp/test",
-		Filename: "test.log",
-		Debug:    &defaultToFalse,
-	},
-	StorageConfig: conf.StorageConfig{
-		Type:    "memory",
-		Timeout: 10,
-	},
+func (s *testLogSuite) SetupSuite() {
+	s.config = &conf.Config{
+		App: conf.AppConfig{
+			Verbose: new(bool),
+			Debug:   new(bool),
+			Port:    ":3000",
+		},
+		Log: conf.LogConfig{
+			Path:     "../../tmp/test",
+			Filename: "test.log",
+			Debug:    new(bool),
+		},
+		Storage: conf.StorageConfig{
+			Type: "memory",
+		},
+	}
 }
 
 func (s *testLogSuite) TearDownTest() {
 	// remove log path
-	os.RemoveAll(cfg.Log.Path)
+	os.RemoveAll(s.config.Log.Path)
 	// reset monkey
 	monkey.UnpatchAll()
 }
@@ -52,17 +52,14 @@ func (s *testLogSuite) TearDownTest() {
 func (s *testLogSuite) TestInitLogger() {
 	tt := []struct {
 		name  string
-		cfg   conf.Config
 		debug bool
 	}{
 		{
 			name:  "TestInitLogger_DebugTrue",
-			cfg:   cfg,
 			debug: true,
 		},
 		{
 			name:  "TestInitLogger_DebugFalse",
-			cfg:   cfg,
 			debug: false,
 		},
 	}
@@ -70,10 +67,10 @@ func (s *testLogSuite) TestInitLogger() {
 	for _, tc := range tt {
 		s.T().Run(tc.name, func(_ *testing.T) {
 			// Arrange
-			tc.cfg.Log.Debug = &tc.debug
+			s.config.Log.Debug = &tc.debug
 
 			// Act
-			log, err := logger.InitLogger(tc.cfg)
+			log, err := logger.InitLogger(*s.config)
 
 			// Assert
 			s.Require().NoError(err)
@@ -114,7 +111,7 @@ func (s *testLogSuite) TestInitLogger_CreatePath_KO() {
 	})
 
 	// Act
-	log, err := logger.InitLogger(cfg)
+	log, err := logger.InitLogger(*s.config)
 
 	// Assert
 	s.Require().Error(err)
@@ -128,7 +125,7 @@ func (s *testLogSuite) TestInitLogger_OpenFile_KO() {
 	})
 
 	// Act
-	log, err := logger.InitLogger(cfg)
+	log, err := logger.InitLogger(*s.config)
 
 	// Assert
 	s.Require().Error(err)

@@ -36,7 +36,7 @@ func (s *testInMemorySuite) SetupSuite() {
 			Filename: "test.log",
 			Debug:    new(bool),
 		},
-		StorageConfig: conf.StorageConfig{
+		Storage: conf.StorageConfig{
 			Type: "memory",
 		},
 	}

@@ -28,7 +28,7 @@ func NewMongoAdapter(c *conf.Config, l *zap.Logger) *MongoAdapter {
 		config:         c,
 		logger:         l,
 		client:         nil,
-		secondsTimeout: time.Duration(c.StorageConfig.Timeout) * time.Second,
+		secondsTimeout: time.Duration(c.Storage.Timeout) * time.Second,
 	}
 }
 
@@ -41,7 +41,7 @@ func (m *MongoAdapter) Connect() error {
 
 	mc, err := mongo.Connect(
 		ctx,
-		options.Client().ApplyURI(m.config.StorageConfig.MongoURI),
+		options.Client().ApplyURI(m.config.Storage.MongoURI),
 		options.Client().SetTimeout(m.secondsTimeout),
 	)
 

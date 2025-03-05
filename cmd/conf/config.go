@@ -12,9 +12,9 @@ import (
 )
 
 type Config struct {
-	App           AppConfig     `mapstructure:"app"`
-	Log           LogConfig     `mapstructure:"log"`
-	StorageConfig StorageConfig `mapstructure:"storage"`
+	App     AppConfig     `mapstructure:"app"`
+	Log     LogConfig     `mapstructure:"log"`
+	Storage StorageConfig `mapstructure:"storage"`
 }
 
 type AppConfig struct {
