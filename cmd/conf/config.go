@@ -30,7 +30,7 @@ type LogConfig struct {
 }
 
 type StorageConfig struct {
-	Type     string `mapstructure:"type"      validate:"required"`
+	Type     string `mapstructure:"type"`
 	Timeout  int    `mapstructure:"timeout"`
 	MongoURI string `mapstructure:"mongo_uri"`
 }

@@ -73,7 +73,7 @@ func (s *testMongoSuite) SetupSuite() {
 			Debug:    new(bool),
 		},
 		Storage: conf.StorageConfig{
-			Type:     "memory",
+			Type:     "mongodb",
 			Timeout:  10,
 			MongoURI: uri,
 		},
