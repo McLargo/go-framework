@@ -60,7 +60,7 @@ func (s *testMongoSuite) SetupSuite() {
 	port := p.Int()
 	uri := fmt.Sprintf("mongodb://%v:%v@%v:%v/", rootUsername, rootPassword, host, port)
 
-	fmt.Println(uri)
+	// Init config
 	s.config = &conf.Config{
 		App: conf.AppConfig{
 			Verbose: new(bool),
@@ -79,7 +79,7 @@ func (s *testMongoSuite) SetupSuite() {
 		},
 	}
 
-	// Arrange logger and observer
+	// Init logger and observer
 	coreObserver, logs := observer.New(zap.DebugLevel)
 	s.logger = zap.New(coreObserver)
 	s.logsObserver = logs

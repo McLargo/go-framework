@@ -24,7 +24,7 @@ func TestInMemorySuite(t *testing.T) {
 }
 
 func (s *testInMemorySuite) SetupSuite() {
-	// Arrange con
+	// Init config
 	s.config = &conf.Config{
 		App: conf.AppConfig{
 			Verbose: new(bool),
@@ -41,7 +41,7 @@ func (s *testInMemorySuite) SetupSuite() {
 		},
 	}
 
-	// Arrange logger and observer
+	// Init logger and observer
 	coreObserver, logs := observer.New(zap.DebugLevel)
 	s.logger = zap.New(coreObserver)
 	s.logsObserver = logs
