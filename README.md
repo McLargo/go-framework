@@ -174,7 +174,12 @@ methodology.
 
 ## CI/CD
 
-Not applicable.
+As it is a boilerplate, it is not intended to be used in a production
+environment. However, it includes couple of useful github actions to help you
+to keep the code clean and to avoid breaking changes.
+
+- Dependabot: to keep the dependencies up to date
+- CI: to check for secrets, vulnerabilities, linters and run the tests
 
 ## Monitoring
 
