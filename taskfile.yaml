@@ -2,12 +2,15 @@ version: '3'
 
 tasks:
 
-  install-air:
-    desc: installs air dependencies
-    cmd: go install github.com/air-verse/air@latest
+  install-deps:
+    desc: installs development dependencies
+    cmds:
+      - go install github.com/air-verse/air@latest
+      - go install github.com/golangci/golangci-lint/cmd/golangci-lint@lates
+      - go install golang.org/x/vuln/cmd/govulncheck@latest
 
   dev:
-    deps: [install-air]
+    deps: [install-deps]
     desc: starts server in development mode.
     dir: '{{.USER_WORKING_DIR}}'
     cmd: air
@@ -50,3 +53,4 @@ tasks:
       - go mod tidy
       - pre-commit autoupdate
       - golangci-lint run --config=.golangci.yml ./...
+      - govulncheck ./...
