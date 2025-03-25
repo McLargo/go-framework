@@ -1,6 +1,6 @@
 module github.com/mclargo/go-framework
 
-go 1.22.1
+go 1.24.1
 
 require (
 	bou.ke/monkey v1.0.2
