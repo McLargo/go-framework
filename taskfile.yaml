@@ -44,7 +44,7 @@ tasks:
     - go tool cover -html=coverage.out
 
   tidy:
-    desc: check and update go modules, pre-commit hooks and linting.
+    desc: clean go modules, pre-commit hooks and linting.
     dir: '{{.USER_WORKING_DIR}}'
     cmds:
       - go mod tidy
