@@ -1,5 +1,8 @@
 # go-frawework
 
+[![CI](https://github.com/McLargo/go-framework/actions/workflows/ci.yml/badge.svg)](https://github.com/McLargo/go-framework/actions/workflows/ci.yml)
+[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
+
 This is my go framework for new code challenges that requires to develop an API
 or small projects that requires to have a minimal API service. It is based on
 Fiber, and it is dockerized. It is ready to be used in any environment.
