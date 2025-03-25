@@ -8,12 +8,12 @@ repos:
       - id: trailing-whitespace
 
   - repo: https://github.com/gitleaks/gitleaks
-    rev: v8.23.3
+    rev: v8.24.2
     hooks:
       - id: gitleaks
 
   - repo: https://github.com/golangci/golangci-lint
-    rev: v1.64.5
+    rev: v2.0.1
     hooks:
       - id: golangci-lint-full
         args: ["--config", ".golangci.yml"]
