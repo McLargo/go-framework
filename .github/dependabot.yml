@@ -7,6 +7,10 @@ updates:
     open-pull-requests-limit: 5
     labels:
       - "dependencies"
+    groups:
+      all-dependencies:
+        patterns:
+          - "*"
     reviewers:
       - "mclargo"
     assignees:
