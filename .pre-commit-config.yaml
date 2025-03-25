@@ -23,3 +23,11 @@ repos:
     hooks:
     - id: markdownlint
       args: ["docs/*", "README.md"]
+
+  - repo: local
+    hooks:
+      - id: govulncheck
+        name: govulncheck
+        entry: govulncheck ./...
+        language: system
+        pass_filenames: false

@@ -4,7 +4,7 @@ tmp_dir = "tmp"
 [build]
 bin = "./tmp/main"
 cmd = "go build -o ./tmp/main cmd/main.go"
-exclude_dir = ["build", "docs", "tmp"]
+exclude_dir = ["build", "docs", "tmp", ".github"]
 include_ext = ["go"]
 exclude_regex = ["_test.go"]
 send_interrupt = true
