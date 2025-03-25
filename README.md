@@ -151,6 +151,7 @@ Below is a list of the ADRs for this project:
 - [ADR-002](./docs/adr/002-development.md) - Development environment
 - [ADR-003](./docs/adr/003-viper.md) - Viper as the configuration manager
 - [ADR-004](./docs/adr/004-logging.md) - zap as the logging library
+- [ADR-005](./docs/adr/005-performance.md) - Performance
 
 ## Contribution
 
@@ -185,7 +186,19 @@ Not applicable.
 
 ## Performance
 
-TODO
+To ensure that the system is able to handle the expected load and provide a good
+user experience, Vegeta is the tool used to check the performance of the system.
+
+### Usage
+
+<!-- markdownlint-disable MD013 -->
+```bash
+echo "GET http://localhost/" | vegeta attack -duration=5s -rate=1000 | tee results.bin | vegeta report
+vegeta report -type=json results.bin > metrics.json
+cat results.bin | vegeta plot > plot.html
+cat results.bin | vegeta report -type="hist[0,100ms,200ms,300ms]"
+```
+<!-- markdownlint-enable MD013 -->
 
 ## License
 

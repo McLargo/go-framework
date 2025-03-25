@@ -164,7 +164,7 @@ Most common errors you can find when running the project.
 
 ## Performance
 
-TODO
+Usage of tools to measure the performance of the application.
 
 ## License
 
