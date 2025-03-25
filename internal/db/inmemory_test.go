@@ -1,6 +1,7 @@
 package db_test
 
 import (
+	"os"
 	"testing"
 
 	"github.com/mclargo/go-framework/cmd/conf"
@@ -24,6 +25,10 @@ func TestInMemorySuite(t *testing.T) {
 }
 
 func (s *testInMemorySuite) SetupSuite() {
+	// Create temp folder
+	dirTmp, err := os.MkdirTemp("", "log")
+	s.Require().NoError(err)
+
 	// Init config
 	s.config = &conf.Config{
 		App: conf.AppConfig{
@@ -32,7 +37,7 @@ func (s *testInMemorySuite) SetupSuite() {
 			Port:    ":3000",
 		},
 		Log: conf.LogConfig{
-			Path:     "../../tmp/test",
+			Path:     dirTmp,
 			Filename: "test.log",
 			Debug:    new(bool),
 		},
@@ -50,11 +55,16 @@ func (s *testInMemorySuite) SetupSuite() {
 }
 
 func (s *testInMemorySuite) TearDownSuite() {
+	// Disconnect from in-memory database
 	err := s.adapter.Disconnect()
 	s.Require().NoError(err)
 
 	msg := "disconnecting from in-memory database"
 	s.Require().Equal(1, s.logsObserver.FilterMessage(msg).Len())
+
+	// Remove log path
+	err = os.RemoveAll(s.config.Log.Path)
+	s.Require().NoError(err)
 }
 
 func (s *testInMemorySuite) TestConnect() {

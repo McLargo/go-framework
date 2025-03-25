@@ -5,7 +5,7 @@ import (
 	"os"
 	"testing"
 
-	"bou.ke/monkey"
+	"github.com/agiledragon/gomonkey/v2"
 	"github.com/mclargo/go-framework/cmd/conf"
 	"github.com/mclargo/go-framework/internal/logger"
 
@@ -25,6 +25,11 @@ func TestLogSuite(t *testing.T) {
 }
 
 func (s *testLogSuite) SetupSuite() {
+	// Create temp folder
+	dirTmp, err := os.MkdirTemp("", "log")
+	s.Require().NoError(err)
+
+	// Init config
 	s.config = &conf.Config{
 		App: conf.AppConfig{
 			Verbose: new(bool),
@@ -32,18 +37,17 @@ func (s *testLogSuite) SetupSuite() {
 			Port:    ":3000",
 		},
 		Log: conf.LogConfig{
-			Path:     "../../tmp/test",
+			Path:     dirTmp,
 			Filename: "test.log",
 			Debug:    new(bool),
 		},
 	}
 }
 
-func (s *testLogSuite) TearDownTest() {
-	// remove log path
-	os.RemoveAll(s.config.Log.Path)
-	// reset monkey
-	monkey.UnpatchAll()
+func (s *testLogSuite) TearDownSuite() {
+	// Remove log path
+	err := os.RemoveAll(s.config.Log.Path)
+	s.Require().NoError(err)
 }
 
 func (s *testLogSuite) TestInitLogger() {
@@ -103,28 +107,32 @@ func (s *testLogSuite) TestInitLogger() {
 
 func (s *testLogSuite) TestInitLogger_CreatePath_KO() {
 	// Arrange
-	monkey.Patch(os.Mkdir, func(_ string, _ fs.FileMode) error {
-		return fs.ErrExist
+	patchOsStat := gomonkey.ApplyFunc(os.Stat, func(_ string) (os.FileInfo, error) {
+		return nil, fs.ErrNotExist
 	})
+	defer patchOsStat.Reset()
 
 	// Act
 	log, err := logger.InitLogger(*s.config)
 
 	// Assert
 	s.Require().Error(err)
+	s.Require().ErrorIs(err, fs.ErrExist)
 	s.Require().Nil(log)
 }
 
 func (s *testLogSuite) TestInitLogger_OpenFile_KO() {
 	// Arrange
-	monkey.Patch(os.OpenFile, func(_ string, _ int, _ fs.FileMode) (*os.File, error) {
+	patchOsOpenFile := gomonkey.ApplyFunc(os.OpenFile, func(_ string, _ int, _ fs.FileMode) (*os.File, error) {
 		return nil, fs.ErrNotExist
 	})
+	defer patchOsOpenFile.Reset()
 
 	// Act
 	log, err := logger.InitLogger(*s.config)
 
 	// Assert
 	s.Require().Error(err)
+	s.Require().ErrorIs(err, fs.ErrNotExist)
 	s.Require().Nil(log)
 }

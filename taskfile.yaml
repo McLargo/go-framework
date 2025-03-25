@@ -6,7 +6,7 @@ tasks:
     desc: installs development dependencies
     cmds:
       - go install github.com/air-verse/air@latest
-      - go install github.com/golangci/golangci-lint@latest
+      - go install github.com/golangci/golangci-lint/cmd/golangci-lint@lates
       - go install golang.org/x/vuln/cmd/govulncheck@latest
 
   dev:

@@ -3,6 +3,7 @@ package db_test
 import (
 	"context"
 	"fmt"
+	"os"
 	"testing"
 
 	"github.com/mclargo/go-framework/cmd/conf"
@@ -60,6 +61,10 @@ func (s *testMongoSuite) SetupSuite() {
 	port := p.Int()
 	uri := fmt.Sprintf("mongodb://%v:%v@%v:%v/", rootUsername, rootPassword, host, port)
 
+	// Create temp folder
+	dirTmp, err := os.MkdirTemp("", "log")
+	s.Require().NoError(err)
+
 	// Init config
 	s.config = &conf.Config{
 		App: conf.AppConfig{
@@ -68,7 +73,7 @@ func (s *testMongoSuite) SetupSuite() {
 			Port:    ":3000",
 		},
 		Log: conf.LogConfig{
-			Path:     "../../tmp/test",
+			Path:     dirTmp,
 			Filename: "test.log",
 			Debug:    new(bool),
 		},
@@ -88,11 +93,16 @@ func (s *testMongoSuite) SetupSuite() {
 }
 
 func (s *testMongoSuite) TearDownSuite() {
+	// Disconnect from MongoDB
 	err := s.adapter.Disconnect()
 	s.Require().NoError(err)
 
 	msg := "disconnecting from mongo database"
 	s.Require().Equal(1, s.logsObserver.FilterMessage(msg).Len())
+
+	// Remove log path
+	err = os.RemoveAll(s.config.Log.Path)
+	s.Require().NoError(err)
 }
 
 func (s *testMongoSuite) TestConnect() {
