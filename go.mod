@@ -1,9 +1,10 @@
 module github.com/mclargo/go-framework
 
 go 1.24.1
+
 require (
 	github.com/agiledragon/gomonkey/v2 v2.13.0
-	github.com/fsnotify/fsnotify v1.8.0
+	github.com/fsnotify/fsnotify v1.9.0
 	github.com/go-playground/validator/v10 v10.26.0
 	github.com/gofiber/fiber/v2 v2.52.6
 	github.com/joho/godotenv v1.5.1
@@ -12,7 +13,7 @@ require (
 	github.com/testcontainers/testcontainers-go v0.36.0
 	go.mongodb.org/mongo-driver v1.17.3
 	go.uber.org/zap v1.27.0
-	golang.org/x/sync v0.12.0
+	golang.org/x/sync v0.13.0
 	gopkg.in/yaml.v2 v2.4.0
 )
 
