@@ -11,8 +11,6 @@ updates:
       all-dependencies:
         patterns:
           - "*"
-    reviewers:
-      - "mclargo"
     assignees:
       - "mclargo"
 
