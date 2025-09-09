@@ -50,6 +50,7 @@ tasks:
     desc: clean go modules, pre-commit hooks and linting.
     dir: '{{.USER_WORKING_DIR}}'
     cmds:
+      - go get -u ./...
       - go mod tidy
       - pre-commit autoupdate
       - golangci-lint run --config=.golangci.yml ./...
