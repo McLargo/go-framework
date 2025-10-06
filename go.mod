@@ -5,7 +5,7 @@ go 1.24.4
 require (
 	github.com/agiledragon/gomonkey/v2 v2.13.0
 	github.com/fsnotify/fsnotify v1.9.0
-	github.com/go-playground/validator/v10 v10.27.0
+	github.com/go-playground/validator/v10 v10.28.0
 	github.com/gofiber/fiber/v2 v2.52.9
 	github.com/joho/godotenv v1.5.1
 	github.com/spf13/viper v1.21.0
