@@ -58,7 +58,7 @@ func (s *testMongoSuite) SetupSuite() {
 	p, err := mongoDBContainer.MappedPort(ctx, "27017/tcp")
 	s.Require().NoError(err)
 
-	port := p.Int()
+	port := p.Num()
 	uri := fmt.Sprintf("mongodb://%v:%v@%v:%v/", rootUsername, rootPassword, host, port)
 
 	// Create temp folder
