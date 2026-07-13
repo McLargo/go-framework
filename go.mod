@@ -13,7 +13,7 @@ require (
 	github.com/testcontainers/testcontainers-go v0.43.0
 	go.mongodb.org/mongo-driver v1.17.9
 	go.uber.org/zap v1.28.0
-	golang.org/x/sync v0.21.0
+	golang.org/x/sync v0.22.0
 	gopkg.in/yaml.v2 v2.4.0
 )
 
