@@ -56,13 +56,15 @@ linters:
     - unused
     - wastedassign
     - whitespace
-    - wsl
+    - wsl_v5
   settings:
     nlreturn:
       block-size: 4
-    wsl:
-      allow-assign-and-call: true
-      force-case-trailing-whitespace: 4
+    wsl_v5:
+      allow-first-in-block: true
+      allow-whole-block: false
+      branch-max-lines: 2
+      case-max-lines: 4
   exclusions:
     generated: lax
     presets:
