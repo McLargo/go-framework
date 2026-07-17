@@ -77,8 +77,8 @@ func watchConfig(app *fiber.App, bootstrap Bootstrap) {
 		restartOngoing = true
 
 		bootstrap.Logger.Info("Config changed:", zap.String("file", e.Name))
-		err := viper.Unmarshal(bootstrap.Config)
 
+		err := viper.Unmarshal(bootstrap.Config)
 		if err != nil {
 			bootstrap.Logger.Error("cannot unmarshall to config struct", zap.Error(err))
 
@@ -88,7 +88,6 @@ func watchConfig(app *fiber.App, bootstrap Bootstrap) {
 		}
 
 		err = bootstrap.Config.Validate()
-
 		if err != nil {
 			bootstrap.Logger.Error("cannot validating config:", zap.Error(err))
 
@@ -111,6 +110,7 @@ func watchConfig(app *fiber.App, bootstrap Bootstrap) {
 
 				return
 			}
+
 			shutdownComplete <- struct{}{}
 		}()
 		// Wait until shutdown is completed

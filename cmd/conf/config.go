@@ -75,6 +75,7 @@ func InitConfig() (*Config, error) {
 // Print prints the configuration.
 func (cfg *Config) Print(log *zap.Logger) {
 	log.Info("Using viper config:", zap.String("file", viper.ConfigFileUsed()))
+
 	set := viper.AllSettings()
 
 	bs, err := yaml.Marshal(set)
