@@ -44,7 +44,6 @@ func (m *MongoAdapter) Connect() error {
 		options.Client().ApplyURI(m.config.Storage.MongoURI),
 		options.Client().SetTimeout(m.secondsTimeout),
 	)
-
 	if err != nil {
 		return fmt.Errorf("failed to create mongo db client for %w", err)
 	}
@@ -53,7 +52,6 @@ func (m *MongoAdapter) Connect() error {
 	m.logger.Debug("sending ping to mongo database")
 
 	err = mc.Ping(context.Background(), readpref.Primary())
-
 	if err != nil {
 		m.logger.Error("MongoDB ping failed")
 		return fmt.Errorf("failed to ping database: %w", err)
