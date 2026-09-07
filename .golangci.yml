@@ -11,7 +11,7 @@ linters:
     - errcheck
     - errchkjson
     - errname
-    - exhaustruct
+    - exhaustruct_v5
     - funlen
     - gocheckcompilerdirectives
     - gochecknoglobals
@@ -74,7 +74,7 @@ linters:
       - std-error-handling
     rules:
       - linters:
-          - exhaustruct
+          - exhaustruct_v5
           - gochecknoglobals
         path: _test\.go
     paths:
