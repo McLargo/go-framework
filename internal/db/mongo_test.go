@@ -17,7 +17,7 @@ import (
 )
 
 const (
-	mongoImage   = "mongo:8.0"
+	mongoImage   = "mongo:8.0.34"
 	rootUsername = "root"
 	rootPassword = "root"
 )
