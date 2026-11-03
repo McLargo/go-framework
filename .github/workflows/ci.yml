@@ -7,9 +7,14 @@ on:
 
 jobs:
   test-and-lint:
-    runs-on: ubuntu-latest
+    # MongoDB 8.0 cannot start on affected Linux kernels (SERVER-121912).
+    # Use the older runner image; containers share the runner's host kernel.
+    runs-on: ubuntu-24.04
 
     steps:
+      - name: 🔎 Show runner kernel
+        run: uname -r
+
       - name: 🛎️ Checkout repo
         uses: actions/checkout@v7
         with:
